@@ -12,6 +12,6 @@ html, body.page {
 	width: 100%;
 
 	&_locked {
-		position: fixed;
+		overflow: hidden;
 	}
 }
