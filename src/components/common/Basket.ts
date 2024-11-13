@@ -38,7 +38,7 @@ export class Basket extends Component<IBasket> {
   }
 
 	set total(total: number) {
-		this.totalPrice.textContent = `${total} синапсов`;
+		this.setText(this.totalPrice, `${total} синапсов`);
 		this.updateButtonState(total);
 	}
 }

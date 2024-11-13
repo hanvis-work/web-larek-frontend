@@ -2,7 +2,9 @@ import './scss/styles.scss';
 import { LarekAPI } from './components/LarekAPI';
 import { EventEmitter } from './components/base/events';
 import { API_URL, CDN_URL } from './utils/constants';
-import { CardsData, BasketData, OrderData } from './components/AppData';
+import { CardsData } from './components/CardsData';
+import { BasketData } from './components/BasketData';
+import { OrderData } from './components/OrderData';
 import { Page } from './components/Page';
 import { Card } from './components/Card';
 import { cloneTemplate, ensureElement } from './utils/utils';
@@ -17,7 +19,7 @@ const events = new EventEmitter();
 const page = new Page(document.body, events);
 const api = new LarekAPI(CDN_URL, API_URL);
 const cardsData = new CardsData(events);
-const basketData = new BasketData(events);
+const basketData = new BasketData(events, cardsData);
 const orderData = new OrderData(events);
 
 // Константы для шаблонов
@@ -63,7 +65,11 @@ events.on('cards:changed', () => {
 
 events.on('card:select', (card: ICard) => {
 	const cardInModal = new Card(cloneTemplate(templates.cardPreview), {
-		onClick: () => events.emit('add:card', card),
+		onClick: (event: MouseEvent) => {
+      if (event.target === cardInModal.getCardButton()) {
+        events.emit('add:card', card);
+      }
+    },
 	});
 
 	modal.render({
@@ -87,20 +93,22 @@ events.on('modal:open', () => (page.locked = true));
 events.on('modal:close', () => (page.locked = false));
 
 events.on('add:card', (card: ICard) => {
-	basketData.addCard(card);
+	basketData.addCard(card.id);
 	modal.close();
 });
 
 events.on('basket:changed', () => {
 	basket.cards = basketData.cards.map((item, index) => {
+		const cardData = cardsData.cards.find((card) => card.id === item);
 		const card = new Card(cloneTemplate(templates.cardBasket));
 		card.index = index + 1;
-		card.deleteHandler(() => events.emit('delete:card', item));
-		return card.render(item);
+		card.deleteHandler(() => events.emit('delete:card', cardData));
+		return card.render(cardData);
 	});
 	page.counter = basketData.getCount();
 	basket.total = basketData.getTotal();
 });
+
 
 events.on('basket:open', () => {
 	modal.render({

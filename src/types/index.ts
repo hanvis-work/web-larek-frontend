@@ -38,8 +38,8 @@ export interface ICardsData {
 
 // Интерфейс описывающий корзину товаров
 export interface IBasketData {
-	cards: ICard[];
-	addCard(card: ICard): void;
+	cards: string[];
+	addCard(cardId: string): void;
 	deleteCard(cardId: string): void;
 	cardInBasket(cardId: string): boolean;
 	clearBasket(): void;

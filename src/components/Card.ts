@@ -100,4 +100,8 @@ export class Card extends Component<ICard> {
 	clickHandler(handler: (event: MouseEvent) => void): void {
 		this.container.addEventListener('click', handler);
 	}
+
+	public getCardButton(): HTMLButtonElement {
+    return this.cardButton;
+  }
 }

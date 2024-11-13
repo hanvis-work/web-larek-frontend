@@ -146,8 +146,6 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 
 ### Слой данных
 
-Слой данных представлен в `AppData.ts` в нем хранятся и обновляются данные приложения
-
 #### Класс CardsData
 
 Класс отвечает за хранение и работу с данными карточек товаров.
@@ -169,8 +167,10 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 Конструктор класса принимает инстант брокера событий.
 В полях класса хранятся данные:
 
-- `cards: ICard[]` - Массив карточек
+- `cards: string[]` - Массив id карточек
 - `events: IEvents` - Экземпляр класса `EventEmitter` для инициализации событий при изменении данных
+- `cardsData: CardsData` - Экземпляр класса `CardsData` для доступа к данным карточек
+- `total: number` - Общая сумма покупки
 
 Класс хранит набор методов для взаимодействия с его данными:
 
@@ -181,6 +181,7 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 - `clearBasket(): void` - удаляет все карточки из корзины
 - `getCards(): ICard[]` - возвращает массив карточек
 - `getCardsId(): string[]` - возвращает массив id карточек
+- `calculateTotal(): void` - обновляет общую стоимость
 - `getTotal(): number` - возвращает общую стоимость всех карточек в корзине
 
 #### Класс OrderData
@@ -244,6 +245,7 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 - `setButtonState(state: boolean): void` - устанавливает состояние кнопки карточки
 - `deleteHandler(handler: (event: MouseEvent) => void): void` - устанавливает обработчик события клика на кнопку удаления
 - `clickHandler(handler: (event: MouseEvent) => void): void` - устанавливает обработчик события клика на кнопку карточки
+- `getCardButton(): HTMLButtonElement` - возвращает кнопку карточки
 
 #### Класс Page
 
