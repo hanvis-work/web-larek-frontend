@@ -169,7 +169,6 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 
 - `cards: string[]` - Массив id карточек
 - `events: IEvents` - Экземпляр класса `EventEmitter` для инициализации событий при изменении данных
-- `cardsData: CardsData` - Экземпляр класса `CardsData` для доступа к данным карточек
 - `total: number` - Общая сумма покупки
 
 Класс хранит набор методов для взаимодействия с его данными:
@@ -179,10 +178,9 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 - `getCount(): number` - возвращает количество карточек в корзине
 - `cardInBasket(cardId: string): boolean` - проверяет наличие карточки в корзине по id
 - `clearBasket(): void` - удаляет все карточки из корзины
-- `getCards(): ICard[]` - возвращает массив карточек
 - `getCardsId(): string[]` - возвращает массив id карточек
-- `calculateTotal(): void` - обновляет общую стоимость
-- `getTotal(): number` - возвращает общую стоимость всех карточек в корзине
+- `calculateTotal(cards: ICard[]): void` - считает общую стоимость
+- `getTotal(cards: ICard[]): number` - возвращает общую стоимость всех карточек в корзине
 
 #### Класс OrderData
 

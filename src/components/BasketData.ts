@@ -1,30 +1,25 @@
 import { ICard, IBasketData } from '../types';
 import { IEvents } from './base/events';
-import { CardsData } from './CardsData';
 
 export class BasketData implements IBasketData {
 	cards: string[] = [];
-  private cardsData: CardsData;
 	protected events: IEvents;
   protected total: number = 0;
 
-	constructor(events: IEvents, cardsData: CardsData) {
+	constructor(events: IEvents) {
 		this.events = events;
-    this.cardsData = cardsData;
 	}
 
 	addCard(cardId: string): void {
     const isCardInBasket = this.cards.includes(cardId);
     if (!isCardInBasket) {
       this.cards.push(cardId);
-      this.calculateTotal();
       this.events.emit('basket:changed');
     }
   }
 
 	deleteCard(cardId: string): void {
     this.cards = this.cards.filter((id) => id !== cardId);
-    this.calculateTotal();
     this.events.emit('basket:changed');
   }
 
@@ -41,25 +36,19 @@ export class BasketData implements IBasketData {
 		this.events.emit('basket:changed');
 	}
 
-	getCards(): ICard[] {
-    return this.cards.map((cardId) => {
-      const card = this.cardsData.cards.find((card) => card.id === cardId);
-      return card;
-    });
-  }
-
 	getCardsId(): string[] {
     return this.cards;
   }
 
-  calculateTotal(): void {
+  calculateTotal(cards: ICard[]): void {
     this.total = this.cards.reduce((acc, cardId) => {
-      const card = this.cardsData.cards.find((card) => card.id === cardId);
+      const card = cards.find((card) => card.id === cardId);
       return acc + (card ? card.price : 0);
     }, 0);
   }
 
-	getTotal(): number {
+	getTotal(cards: ICard[]): number {
+    this.calculateTotal(cards);
     return this.total;
   }
 }

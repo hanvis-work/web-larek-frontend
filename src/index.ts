@@ -19,7 +19,7 @@ const events = new EventEmitter();
 const page = new Page(document.body, events);
 const api = new LarekAPI(CDN_URL, API_URL);
 const cardsData = new CardsData(events);
-const basketData = new BasketData(events, cardsData);
+const basketData = new BasketData(events);
 const orderData = new OrderData(events);
 
 // Константы для шаблонов
@@ -106,7 +106,7 @@ events.on('basket:changed', () => {
 		return card.render(cardData);
 	});
 	page.counter = basketData.getCount();
-	basket.total = basketData.getTotal();
+	basket.total = basketData.getTotal(cardsData.cards);
 });
 
 
@@ -177,12 +177,12 @@ events.on('contacts:submit', () => {
 	api
 		.sendOrder({
 			items: basketData.getCardsId(),
-			total: basketData.getTotal(),
+			total: basketData.getTotal(cardsData.cards),
 			...orderData.getOrderData(),
 		})
 		.then(() => {
 			modal.render({ content: success.render() });
-			success.total = basketData.getTotal();
+			success.total = basketData.getTotal(cardsData.cards);
 			basketData.clearBasket();
 			orderData.resetFormData();
 		})

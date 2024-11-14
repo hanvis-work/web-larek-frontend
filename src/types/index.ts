@@ -43,9 +43,8 @@ export interface IBasketData {
 	deleteCard(cardId: string): void;
 	cardInBasket(cardId: string): boolean;
 	clearBasket(): void;
-	getCards(): ICard[];
 	getCardsId(): string[];
-	getTotal(): number;
+	getTotal(cards: ICard[]): number;
 }
 
 // Интерфейс описывающий заказ
