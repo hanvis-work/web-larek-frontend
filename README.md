@@ -180,7 +180,7 @@ type TFormErrors = Partial<Record<keyof IOrder, string>>;
 - `clearBasket(): void` - удаляет все карточки из корзины
 - `getCardsId(): string[]` - возвращает массив id карточек
 - `calculateTotal(cards: ICard[]): void` - считает общую стоимость
-- `getTotal(cards: ICard[]): number` - возвращает общую стоимость всех карточек в корзине
+- `getTotal(): number` - возвращает общую стоимость всех карточек в корзине
 
 #### Класс OrderData
 

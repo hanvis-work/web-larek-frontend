@@ -106,7 +106,8 @@ events.on('basket:changed', () => {
 		return card.render(cardData);
 	});
 	page.counter = basketData.getCount();
-	basket.total = basketData.getTotal(cardsData.cards);
+	basketData.calculateTotal(cardsData.cards);
+	basket.total = basketData.getTotal();
 });
 
 
@@ -177,12 +178,12 @@ events.on('contacts:submit', () => {
 	api
 		.sendOrder({
 			items: basketData.getCardsId(),
-			total: basketData.getTotal(cardsData.cards),
+			total: basketData.getTotal(),
 			...orderData.getOrderData(),
 		})
 		.then(() => {
 			modal.render({ content: success.render() });
-			success.total = basketData.getTotal(cardsData.cards);
+			success.total = basketData.getTotal();
 			basketData.clearBasket();
 			orderData.resetFormData();
 		})

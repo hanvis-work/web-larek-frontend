@@ -46,9 +46,8 @@ export class BasketData implements IBasketData {
       return acc + (card ? card.price : 0);
     }, 0);
   }
-
-	getTotal(cards: ICard[]): number {
-    this.calculateTotal(cards);
+  
+  getTotal(): number {
     return this.total;
   }
 }
